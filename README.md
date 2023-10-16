@@ -16,3 +16,5 @@
 2. 데이터가 필요한 이유(Why)에서 현장에 비즈니스 임팩트를 만들 수 있습니다.
 3. 사업기획, 데이터, 협업 등과 관련된 디지털 기술을 학습했습니다.
 4. UX Researcher, Data-driven, 서비스 기획 등 데이터 기반 융합형 인재입니다.
+
+![image](https://github.com/Donghwi00/Data-Analysis/assets/139246001/c8d70658-e479-46b5-a63c-56771d012d11)
