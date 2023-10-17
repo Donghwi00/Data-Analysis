@@ -16,6 +16,27 @@ CJ올리브네트웍스_김선엽 책임
 
 
 <현업에서 말하는 데이터>
+01 데이터 분석 프로세스
+  1. 데이터 생성
+  2. 데이터 수집
+  3. 데이터 가공 후 저장(ETL)
+    ETL: 추출(Extract)/변환(Transform)/로드(Load)
+  4. 데이터 분석 및 시각화(BI)
+
+02 데이터를 다루는 사람들
+- Data Engineer(=개발자)
+  대용량의 데이터를 수집, 관리하고 필요한 데이터를 추출하는 역량
+  도구: MySQL, Spark, MapReduce, Airflow, 프로그래밍..
+
+- Data Scientist/ ML Engineer
+  대용량 데이터를 추출, 처리가 가능하고 그로부터 인사이트 뽑는 역량
+  도구: Apache Spark, Machine Learning, 프로그래밍, 통계학
+
+- Data Annotator
+
+- Data Analyst(=비즈니스 문제 해결, 기획)
+  데이터를 통해 '문제'를 해결하는데 집중하는데 필요한 역량
+  도구: SQL(데이터 조회/활용), 각종 통계도구, 도메인 지식
 
 
 
