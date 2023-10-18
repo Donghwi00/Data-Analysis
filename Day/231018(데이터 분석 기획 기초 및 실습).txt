@@ -10,6 +10,8 @@
   혁신: [ DATA-IDEA]
 
   M: Align(팀원구성), Sketch(주제구성)
+      -Define the Challenge
+      -Produce Solutions
   T: Decide, Story-board
   W: Proto-Type
   T: Test
@@ -19,6 +21,7 @@
     Decider
     Expert(s)
     Facilitator
+
 
 
 Flutter(언어: Dart)
