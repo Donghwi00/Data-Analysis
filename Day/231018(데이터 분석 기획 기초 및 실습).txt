@@ -24,4 +24,14 @@
 
 
 
-Flutter(언어: Dart)
+Data-Driven Application
+  Flutter(언어: Dart)
+  Firebase(클라우드 서비스)
+
+Multi-Platform
+Data Visualization
+Pre-trained models & Libraries
+Cloud data warehouse
+  ex) BigQuery
+
+MicroLearnable
