@@ -1,1 +1,24 @@
 한동대 조성배 교수
+
+디자인 스프린트-협업 툴
+  구글의 핵심 프로그램을 개발한 기획실행 프로세스
+  단 5일(월~금) 만에 아이디어를 스케치하고 프로토타입 제작과 테스트까지 가능한 프로세스
+  스토리보드 작성..
+  프로토타입-유저테스트
+
+  기존: [ DATA-IDEA-BUILD-LAUNCH ] 순환구조!
+  혁신: [ DATA-IDEA]
+
+  M: Align(팀원구성), Sketch(주제구성)
+  T: Decide, Story-board
+  W: Proto-Type
+  T: Test
+  F: Cycle
+
+  Important Roles
+    Decider
+    Expert(s)
+    Facilitator
+
+
+Flutter(언어: Dart)
