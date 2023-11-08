@@ -20,4 +20,16 @@ SQL 활용처는 개발자(개발,엔지니어링)와 비개발자(기획,마케
 
 
 Query함수로 SQL감잡기
-Query함수는 
+-표, 테이블
+-열, Column, Field
+-행, Row, Record
+
+SELECT
+-테이블(데이터베이스)에서 특정 열의 데이터를 가져오는 명령어
+  SELECT A: A열을 가져와라./ SELECT A,B: A열, B열을 가져와라./ SELECT *: 모든 열을 가져와라./ SELECT AVG(A): A열의 평균을 가져와라
+
+WHERE
+-SELECT문으로 가져오는 데이터 중에 특정 조건에 해당하는 데이터를 가져오는 명령어
+  QUERY(A1:E21, "SELECT A,D WHERE E="PROMOTION")
+
+LIMIT
