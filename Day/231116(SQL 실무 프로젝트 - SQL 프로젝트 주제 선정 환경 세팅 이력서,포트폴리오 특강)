@@ -7,3 +7,63 @@ SQL을 왜 배워야 할까요?
 ETL: 추출,변환,로드
 
 실습1
+# 3. 공판장품목별입출고현황 데이터 중 상태가공분류가 냉동이고 기준일자가 "2023.9.1"이며
+# 입,출고량이 0인 데이터는 제외하고 데이터를 조회하세요.
+select *
+from dh.공판장품목별입출고현황
+where product_category_name='(냉동)'
+and stock_date='2023.9.1'
+and stock_quantity  !=0
+and shipment_quantity !=0;
+
+# 4. 공판장품목별재고현황 테이블에서 냉동이거나 냉장인 수산물품목의
+# 전체 입고량 무게가 2번째로 높은 물류센터는 어디인지 확인하세요.
+SELECT warehouse_code ,warehouse_name,
+sum(inventory_quantity_kg) as sum_inventory_quantity_kg
+FROM dh.공판장품목별재고현황
+WHERE product_category_name IN ('(냉동)', '(냉장)')
+GROUP BY warehouse_code, warehouse_name
+ORDER BY sum_inventory_quantity_kg DESC
+LIMIT 1  OFFSET 1;
+
+# 5. 공판장품목별재고현황에서 공판장 코드가 "108100"인 수산물 품목 중에서
+# 누적 재고량이 가장 많은 수산물 품목과 날짜를 확인하세요.
+SELECT warehouse_code, warehouse_name, stock_date, product_code, product_name, 
+sum(inventory_quantity)
+FROM dh.공판장품목별재고현황
+WHERE warehouse_code = "108100"
+GROUP BY warehouse_code, warehouse_name,stock_date, product_code, product_name
+ORDER BY sum(inventory_quantity) DESC
+LIMIT 1;
+
+# 6. 공판장품목별입출고현황 테이블과 공판장품목별재고현황 테이블을 이용해
+# 기준일자가 2023.9.2인 공판장품목별 수산물품목에 대한 입.출고량과 재고량을 모두 구하세요.
+select A.warehouse_code, A.warehouse_name, A.stock_date, A.product_code, A.product_name, B.inventory_quantity, A.stock_quantity, A.shipment_quantity 
+from dh.공판장품목별입출고현황 A
+join dh.공판장품목별재고현황 B
+on
+A.warehouse_code  =B.warehouse_code
+and A.product_code  =B.product_code
+where A.stock_date = '2023.9.2'
+and B.stock_date = '2023.9.2'
+
+# 7. 공판장품목별입출고현황 테이블에서 공판장 별
+# 상태가공분류코드가 몇 개 존재하는지 확인하세요.
+SELECT
+    warehouse_code, warehouse_name,
+    COUNT(DISTINCT product_category_name) AS category_count
+FROM
+    dh.공판장품목별입출고현황
+GROUP BY
+    warehouse_code, warehouse_name;
+
+# 8. 모든 물류센터에 대해서 보관 방법이 냉동이고
+# 누적 입고량이 1000이상인 상품에 대한 정보를 나타내는 테이블을 생성하세요.
+select warehouse_code, warehouse_name, product_code, product_name, product_category_name,
+sum(stock_quantity)
+from dh.공판장품목별입출고현황
+where product_category_name = "(냉동)"
+and warehouse_name like "% 물류센터"
+group by warehouse_code, warehouse_name, product_code, product_name
+having sum(stock_quantity)>=1000
+order by warehouse_name  desc
