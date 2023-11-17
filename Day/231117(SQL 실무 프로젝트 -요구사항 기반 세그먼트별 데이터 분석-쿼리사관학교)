@@ -32,3 +32,26 @@ SUB QUERY: 한 쿼리 안에 SELECT문이 두개 이상이 있다. 또 다른 SQ
 VIEW: 가상의 테이블(실제로 데이터를 저장하고 있지는 않음)
       CREATE (OR REPLACE) VIEW [VIEW_NAME] AS
       EX) create view PRACTICE as
+
+
+
+실습
+SELECT *,
+       RANK() OVER (partition by warehouse_name ORDER BY shipment_quantity_kg  DESC)as ranking
+FROM dh.공판장품목별입출고현황
+order by ranking;
+
+# 9. 물류센터별로 각 상품의 누적 입고량, 누적 출고량, 누적 재고량을 나타내는 테이블을 만들어보세요.
+select A.warehouse_code, A.warehouse_name, A.product_code, A.product_name, A.product_category_name,
+SUM(stock_quantity) as 누적입고량,
+SUM(shipment_quantity) as 누적출고량,
+coalesce(SUM(A.shipment_quantity),0) as 누적출고량_NULL포함,
+SUM(inventory_quantity) as 누적재고량,
+coalesce(SUM(B.inventory_quantity),0) as 누적재고량_NULL포함
+from dh.공판장품목별입출고현황 A
+left join dh.공판장품목별재고현황 B
+on A.warehouse_code = B.warehouse_code
+and A.product_code = B.product_code
+and A.product_category_name = B.product_category_name
+group by A.warehouse_code, A.warehouse_name, A.product_code, A.product_name, A.product_category_name
+order by warehouse_code DESC
