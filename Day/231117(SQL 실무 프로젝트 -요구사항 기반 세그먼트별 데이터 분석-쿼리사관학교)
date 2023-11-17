@@ -55,3 +55,28 @@ and A.product_code = B.product_code
 and A.product_category_name = B.product_category_name
 group by A.warehouse_code, A.warehouse_name, A.product_code, A.product_name, A.product_category_name
 order by warehouse_code DESC
+
+# 10. 각 수산물 품목의 누적출고량이 해당 수산물품목의 누적입고량을 초과하는 경우에 해당 수산물품목에 대한 정보를 확인하세요.
+select product_code, product_name,
+sum(stock_quantity) as 누적입고량,
+sum(shipment_quantity) as 누적출고량
+from dh.공판장품목별입출고현황
+where '누적출고량' > '누적입고량'
+group by product_code, product_name;
+
+select product_code, product_name,
+sum(stock_quantity) as 누적입고량,
+sum(shipment_quantity) as 누적출고량
+from dh.공판장품목별입출고현황
+group by product_code, product_name
+having 누적입고량 < 누적출고량;
+
+# 11. 각 수산물품목의 누적출고량이 해당 수산물품목의 누적입고량을 가장 많이 초과하는 수산물품목에 대한 정보를 확인하세요.
+select product_code, product_name,
+sum(shipment_quantity) as 누적출고량,
+sum(stock_quantity) as 누적입고량,
+sum(shipment_quantity)-sum(stock_quantity) as diff
+from dh.공판장품목별입출고현황
+group by 1,2
+having 누적출고량 >= 누적입고량
+order by diff desc;
