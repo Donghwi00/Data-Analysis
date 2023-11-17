@@ -107,3 +107,16 @@ left join dh.공판장품목별입출고현황 as A
 on A.warehouse_code = B.warehouse_code
 and A.product_code = B.product_code
 and A.stock_date = B.stock_date 
+
+# 13. 각 상품별로 누적 입고량이 가장 많은 두개의 공판장 정보를 가져오는 쿼리를 작성하세요.
+select *
+from (
+select
+warehouse_code, warehouse_name, product_code, product_name, product_category_name,
+sum(stock_quantity) as 누적입고량,
+rank () over(partition by product_code, product_category_name order by sum(stock_quantity) desc) as 랭킹
+from dh.공판장품목별입출고현황
+group by 1,2,3,4,5
+having 누적입고량 <>0) as A
+where 랭킹<=2
+order by product_name,랭킹 asc
