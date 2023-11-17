@@ -8,7 +8,7 @@ ORDER BY
 GROUP BY
 LIMIT
 OFFSET
-JOIN ~ ON: inner join(=join)/ left join/ right join
+JOIN ~ ON: inner join(=join), outer join(left join/ right join)
 HAVING
 COUNT(DISTINCT product_category_name
 and warehouse_name like "% 물류센터"
@@ -20,7 +20,15 @@ MAX
 MIN
 
 COALESCE: SELECT COALESCE(A, '---') FROM test;
-RANK OVER: RANK() OVER (ORDER BY COLUMN2 DESC) RANK
+RANK OVER: RANK() OVER (ORDER BY COLUMN2 DESC) AS RANK
 PARTITION BY: RANK OVER 사용할 때 사용하는 GROUP BY
               RANK() OVER(PARTITION BY SUBJECT ORDER BY MARKS DESC) RANK
 JOIN: 두개의 테이블을 서로 묶어서 하나의 결과를 만들어내는 SQL 절(clause)!
+SUB QUERY: 한 쿼리 안에 SELECT문이 두개 이상이 있다. 또 다른 SQL문
+            SELECT/FROM/WHERE 절에서 사용할 수 있습니다.
+            SELECT에서의 SUB QUERY => 잘 사용하진 않는다. JOIN이 있기 때문에..
+            FROM에서의 SUB QUERY => 하나의 TABLE처럼 사용(열 이름과 테이블명을 꼭 기입!)
+            WHERE에서의 SUB QUERY => IN을 사용하여 조건으로 사용
+VIEW: 가상의 테이블(실제로 데이터를 저장하고 있지는 않음)
+      CREATE (OR REPLACE) VIEW [VIEW_NAME] AS
+      EX) create view PRACTICE as
