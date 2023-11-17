@@ -80,3 +80,30 @@ from dh.공판장품목별입출고현황
 group by 1,2
 having 누적출고량 >= 누적입고량
 order by diff desc;
+
+# 12. 누적입고량이 1000이상이고, 누적출고량이 500미만인 품목 중에서 현재재고량이 가장 많은 품목의 정보와 일자를 확인하는 SQL쿼리를 작성하세요.
+select B.warehouse_code, B.warehouse_name, B.product_code, B.product_name, B.product_category_name, 
+sum(stock_quantity) as 누적입고량,
+sum(shipment_quantity) as 누적출고량,
+B.inventory_quantity as 현재재고량,
+B.stock_date
+from dh.공판장품목별재고현황 as B
+left join dh.공판장품목별입출고현황 as A
+on A.warehouse_code = B.warehouse_code
+and A.product_code = B.product_code
+and A.product_category_name = B.product_category_name
+and A.stock_date = B.stock_date 
+group by 1,2,3,4,5,8,9
+having 누적입고량>=1000 and 누적출고량<500
+order by 현재재고량 desc
+
+select B.warehouse_code, B.warehouse_name, B.product_code, B.product_name, B.product_category_name, 
+sum(stock_quantity) as 누적입고량,
+sum(shipment_quantity) as 누적출고량,
+B.inventory_quantity as 현재재고량,
+B.stock_date
+from dh.공판장품목별재고현황 as B
+left join dh.공판장품목별입출고현황 as A
+on A.warehouse_code = B.warehouse_code
+and A.product_code = B.product_code
+and A.stock_date = B.stock_date 
