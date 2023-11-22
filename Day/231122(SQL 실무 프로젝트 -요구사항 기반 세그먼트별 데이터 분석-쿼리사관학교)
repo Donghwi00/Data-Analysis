@@ -27,3 +27,27 @@ EDA의 분석 유형
 -X범주형/ Y연속형: Bar Chart/ 집단간 통계 비교
 -X연속형/ Y연속형: 분산형 차트(Scattor Plot)
 -X순서형/ Y연속형: 선 차트/ 순서(시간)에 따른 연속값 추이
+
+# 젠더별 이용횟수 및 평균 사용시간(+이동거리(m))
+CREATE TABLE rental_list2 AS SELECT * FROM dh.rental_list;
+
+update rental_list2
+set gender = null
+where gender = "";
+
+select gender, count(use_distance) as 이용횟수
+from dh.rental_list2
+group by gender
+order by 이용횟수 desc
+
+SELECT
+    COALESCE(rl.gender, 'Unknown') AS gender,
+    count(rl.bike_id),
+    ROUND(AVG(rl.use_time_min), 1) AS "평균이용시간(분)",
+    ROUND(AVG(rl.use_distance) / 1000, 2) AS "평균이용거리(km)"
+FROM
+    dh.rental_list2 rl
+GROUP BY
+    rl.gender
+ORDER BY
+    count(bike_id) DESC;
