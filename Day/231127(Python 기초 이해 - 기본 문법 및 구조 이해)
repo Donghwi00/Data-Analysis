@@ -103,3 +103,82 @@ if "카드" not in 주머니:
     print("걸어가라")
 else:
     print("버스를 타고 가라")
+
+# 아래 score에 따라 학점을 출력하는 코드를 작성해 보세요.
+점수81~100 학점 A
+61~80 B
+41~60 C
+21~40 D
+0~20 E
+
+score = 100
+if score in range(81,101):
+    print("학점 A")
+elif score in range(61,81):
+    print("학점 B")
+elif score in range(41,61):
+    print("학점 C")
+elif score in range(21,41):
+    print("학점 D")
+elif score in range(0,21):
+    print("학점 E")
+
+if score>80:
+    print("grade is A")
+elif score>60:
+    print("grade is B")
+elif score>40:
+    print("grade is C")
+elif score>20:
+    print("grade is D")
+else:
+    print("grade is E")
+
+# 다음 코드를 조건부 표현식으로 표현해 보세요.
+if score >=60:
+    message = "success"
+else:
+    message = "failure"
+print(message)
+
+score = 60
+message="success" if score >=60 else "failure"
+print(message)
+
+
+
+반복문
+while
+treehit = 0
+while treehit < 10:
+    treehit += 1
+    print(f"나무를 {treehit}번 찍었습니다.")
+    if treehit==10:
+        print(f"나무가 {treehit}번만에 넘어갔습니다.")
+
+break
+# 커피의 가격이 300원인 자판기에 커피가 10잔이 있다.
+300원을 넣으면 커피를 주고, 300원보다 많이 넣으면 거스름돈과 함께 커피를 주고, 300원보다 덜 넣으면 돈을 다시 돌려주고 커피를 주지 않는다.
+사용자에게 돈을 받아 커피가 다 떨어질 때까지 커피를 판매하는 자판기 코드를 작성해 보자.
+money = 5000
+coffee_price = 500
+coffee_stock = 10
+
+while money > 0 and coffee_stock > 0:
+    투입금액 = int(input("돈을 넣어주세요: "))
+    
+    if 투입금액 == coffee_price:
+        coffee_stock -= 1
+        remain_money = money - coffee_price
+        print("커피 나왔습니다. 남은 금액은 {}입니다.".format(remain_money))
+    elif 투입금액 < coffee_price:
+        remain_money = money
+        print("돈이 부족합니다. 잔돈으로 {}원을 반환합니다. 남은 금액은 {}입니다.".format(투입금액,remain_money))
+    else:
+        change = 투입금액 - coffee_price
+        coffee_stock -= 1
+        remain_money = money - coffee_price
+        print("커피 나왔습니다. 잔돈으로 {}원을 반환합니다. 남은 금액은 {}입니다.".format(change, remain_money))
+        
+    money = remain_money
+print("커피가 다 떨어졌습니다. 죄송합니다.")
