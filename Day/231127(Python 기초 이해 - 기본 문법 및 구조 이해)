@@ -147,8 +147,7 @@ print(message)
 
 
 
-반복문
-while
+반복문while
 treehit = 0
 while treehit < 10:
     treehit += 1
@@ -182,3 +181,46 @@ while money > 0 and coffee_stock > 0:
         
     money = remain_money
 print("커피가 다 떨어졌습니다. 죄송합니다.")
+
+# 1부터 10까지의 숫자 중에서 홀수만 출력하려면?
+a = 0
+while a<10:
+    a += 1
+    if a%2==0:
+        continue
+    else:
+        print(a)
+
+반복문for
+# 총 5명의 학생이 시험을 보았는데 시험 점수가 60점 이상이면 합격이고 그렇지 않으면 불합격이다. 합격인지 불합격인지 결과를 보여주시오.
+marks = [90,25,67,45,80]
+for mark in marks:
+    if mark>=60:
+        print("합격")
+    else:
+        print("불합격")
+
+# 60점 이상인 사람에게는 축하 메시지를 보내고, 나머지 사람에게는 아무런 메시지도 전하지 않으려면?
+marks = [90,25,67,45,80]
+number = 0
+
+for mark in marks:
+    number = number + 1
+    if mark < 60:
+        continue
+    print("%d번 학생, 합격을 축하합니다." % number)
+
+range()함수
+add = 0
+for i in range(1, 11):
+    add = add + i
+print(add)
+
+리스트 컴프리헨션 사용하기
+a=[1,2,3,4]
+result = [numx3 for num in a]
+print(result)
+
+# 리스트 컴프리헨션을 사용하여 구구단의 모든 결과를 아래와 같이 차례대로 'result'리스트에 담아본다면?
+result = [num*num2 for num in range(2,10) for num2 in range(1,10)]
+print(result)
