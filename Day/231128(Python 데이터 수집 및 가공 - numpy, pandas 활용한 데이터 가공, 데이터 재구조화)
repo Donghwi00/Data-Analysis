@@ -116,3 +116,4 @@ exam.tail() # 뒤에서부터 5행까지 출력
 exam.shape # (행,열) 출력
 exam.info()
 exam.describe() # 요약통계량 구하기
+mpg.describe(include='all') # 문자 변수 요약 통계량 함께 출력
