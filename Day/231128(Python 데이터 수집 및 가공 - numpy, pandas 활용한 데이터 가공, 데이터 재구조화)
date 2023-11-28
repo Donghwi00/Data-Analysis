@@ -117,3 +117,7 @@ exam.shape # (행,열) 출력
 exam.info()
 exam.describe() # 요약통계량 구하기
 mpg.describe(include='all') # 문자 변수 요약 통계량 함께 출력
+
+1. 내장함수
+2. 패키지함수
+3. 메서드: 변수가 지니고 있는 함수
