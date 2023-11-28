@@ -105,3 +105,14 @@ df_exam = pd.read_excel("excel_exam.xlsx")
 df_exam
 
 df_midterm.to_csv('output_newdata.csv', index=False)
+
+
+
+import pandas as pd
+exam = pd.read_csv('exam.csv')
+exam.head() # 앞에서부터 5행까지 출력
+    exam.head(10)
+exam.tail() # 뒤에서부터 5행까지 출력
+exam.shape # (행,열) 출력
+exam.info()
+exam.describe() # 요약통계량 구하기
