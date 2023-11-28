@@ -1,1 +1,40 @@
 파이썬 예제 실습
+함수
+# 하나의 문자를 입력받아 문자열 끝에 ":D"문자열을 이어 붙여 출력하는 함수를 만들고, 사용해보자
+def smile(a):
+    print(a + ":D")
+
+# 성적 리스트를 입력받아 평균을 출력하는 함수를 만들고, 사용해보자
+score_list = [90, 100, 80, 75, 60, 40, 95, 100]
+def score_avg(scores):
+    avg = sum(scores) / len(scores)
+    print(f"평균 점수: {avg}")
+score_avg(score_list)
+
+# 숫자로 구성된 하나의 리스트를 입력받아 짝수만 추출하여 리스트를 반환하는 함수를 만들고 사용해보자
+pickup_even = ([3,4,5,6,7,8])
+def extract_even(list):
+    even_numbers = [num for num in list if num % 2 == 0]
+    print(even_numbers)
+extract_even(pickup_even)
+
+# 아래와 같이 숫자로 구성된 리스트를 입력받아 앞에서부터 3개씩 이동하며 평균을 구하고 리스트로 반환하는 함수를 작성해보자.
+my_list = [100,200,300,200,400,500]
+
+moving_average_3(my_list)
+
+# 아래와 같이 숫자로 구성된 리스트와 이동할 길이 n을 입력받아 앞에서부터 n개씩 이동하며 평균을 구하고 리스트로 반환하는 함수를 작성해보자.
+my_list = [100,200,300,200,400,500]
+
+moving_average_n(my_list,4)
+
+
+
+seaborn 실습
+import seaborn as sns
+var = ['a', 'a', 'b', 'c']
+sns.countplot(x = var)
+
+df = sns.load_dataset("titanic")
+sns.countplot(data=df, x="sex")
+sns.countplot(x= df["class"])
