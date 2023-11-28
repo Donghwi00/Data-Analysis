@@ -20,7 +20,9 @@ extract_even(pickup_even)
 
 # 아래와 같이 숫자로 구성된 리스트를 입력받아 앞에서부터 3개씩 이동하며 평균을 구하고 리스트로 반환하는 함수를 작성해보자.
 my_list = [100,200,300,200,400,500]
-
+def moving_average_3(list):
+    result = [num for num in 
+    print(result)
 moving_average_3(my_list)
 
 # 아래와 같이 숫자로 구성된 리스트와 이동할 길이 n을 입력받아 앞에서부터 n개씩 이동하며 평균을 구하고 리스트로 반환하는 함수를 작성해보자.
@@ -38,3 +40,34 @@ sns.countplot(x = var)
 df = sns.load_dataset("titanic")
 sns.countplot(data=df, x="sex")
 sns.countplot(x= df["class"])
+
+# x축 class, alive별 색 표현
+sns.countplot(x=df["class"], hue=df["alive"])
+
+# y축 class, alive별 색 표현
+sns.countplot(y=df["class"], hue=df["alive"])
+
+# 함수 사용법이 궁금할 떈 help함수를 활용해보세요.
+sns.countplot?
+
+
+
+모듈
+패키지-모듈-함수
+# 패키지명.모듈명.함수명()으로 함수 사용하기
+import sklearn.metrics as met
+sklearn.metrics.accuracy_score()
+
+# 모듈명.함수명()으로 함수 사용하기
+from sklearn import metrics as met
+metrics.accuracy_score()
+
+# 함수명()으로 함수 사용하기
+from sklearn.metrics import accuracy_score
+accuracy_score()
+
+# 패키지 설치하기
+pip install pydataset
+
+import pydataset
+pydataset.data()
