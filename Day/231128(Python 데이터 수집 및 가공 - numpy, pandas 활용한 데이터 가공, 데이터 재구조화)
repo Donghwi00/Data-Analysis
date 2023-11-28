@@ -21,13 +21,15 @@ extract_even(pickup_even)
 # 아래와 같이 숫자로 구성된 리스트를 입력받아 앞에서부터 3개씩 이동하며 평균을 구하고 리스트로 반환하는 함수를 작성해보자.
 my_list = [100,200,300,200,400,500]
 def moving_average_3(list):
-    result = [num for num in 
+    result = [sum(list[i:i+3] for i in range(len(list)-2)]
     print(result)
 moving_average_3(my_list)
 
 # 아래와 같이 숫자로 구성된 리스트와 이동할 길이 n을 입력받아 앞에서부터 n개씩 이동하며 평균을 구하고 리스트로 반환하는 함수를 작성해보자.
 my_list = [100,200,300,200,400,500]
-
+def moving_average_n(list,n):
+    result = [sum(list[i:i+n])/n for i in range(len(list)-(n-1))]
+    print(result)
 moving_average_n(my_list,4)
 
 
@@ -71,3 +73,30 @@ pip install pydataset
 
 import pydataset
 pydataset.data()
+
+
+
+데이터프레임(df)
+import pandas as pd
+df = pd.DataFrame({
+    "name" : ['김지훈', '이유진', '박동현', '김민지'],
+    "english" : [90, 80 , 60, 70],
+    "math" : [50,60,100,20]
+})
+df
+
+# 다음표의 내용을 데이터프레임으로 만들어 출력해보세요.
+# 앞에서 만든 데이터프레임을 이용해 과일의 가격평균과 판매량 평균을 구해보세요.
+df2 = pd.DataFrame({
+    "제품": ["사과", "딸기", "수박"],
+    "가격": [1800, 1500, 3000],
+    "판매량": [24, 38, 13]
+})
+df2
+
+sum(df2["가격"])/3
+sum(df2["판매량"])/3
+
+
+
+외부 데이터 이용하기
