@@ -100,3 +100,8 @@ sum(df2["판매량"])/3
 
 
 외부 데이터 이용하기
+excel_exam 활용
+df_exam = pd.read_excel("excel_exam.xlsx")
+df_exam
+
+df_midterm.to_csv('output_newdata.csv', index=False)
