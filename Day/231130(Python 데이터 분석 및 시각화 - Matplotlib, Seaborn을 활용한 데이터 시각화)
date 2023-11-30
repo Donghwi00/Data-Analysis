@@ -48,3 +48,63 @@ mpg_audi = mpg.query('manufacturer=="audi"').sort_values('hwy', ascending=False)
 
 
 5. 파생변수 추가하기
+df.assign()
+exam.assign(
+    total = exam['math'] + exam['english'] + exam['science'],
+    mean = (exam['math'] + exam['english'] + exam['science'])/3
+)
+
+import numpy as np
+exam.assign(test = np.where(exam['science'] >=60, 'pass', 'fail'))
+
+exam.assign(total = exam['math'] + exam['english'] + exam['science']).sort_values('total')
+
+lambda 이용해 데이터 프레임명 줄여쓰기
+long_name = pd.read_csv('exam.csv')
+long_name.assign(new = lambda x: x['math'] + x['english'] + x['science'])
+
+Q1. mpg데이터 복사본을 만들고, cty와 hwy를 더한 '합산연비변수'를 추가하세요.
+mpg = pd.read_csv('mpg.csv')
+mpg_new = mpg.copy()
+mpg_new = mpg_new.assign(total = mpg_new['cty'] + mpg_new['hwy'])
+
+Q2. 앞에서 만든 '합산연비변수'를 2로 나눠 '평균연비변수'를 추가하세요.
+mpg_new = mpg_new.assign(mean = mpg_new['total']/2)
+
+Q3. '평균연비변수'가 가장 높은 자동차 3종의 데이터를 출력하세요.
+mpg_new.sort_values('mean', ascending=False).head(3)
+
+Q4. 1~3번 문제를 해결할 수 있는 하나로 연결된 pandas구문을 만들어 실행해 보세요.
+    데이터는 복사본 대신 mpg원본을 이용하세요.
+mpg.assign(total = mpg["cty"] + mpg["hwy"], 
+          mean = lambda x: x["total"]/2) \
+    .sort_values("mean", ascending=False) \
+    .head(3)
+mpg.assign(total = lambda x: x["cty"] + x["hwy"],
+           mean = lambda x: x["total"]/2) \
+    .sort_values("mean", ascending=False) \
+    .head(3)
+
+
+
+6. 집단별로 요약하기
+df.groupby(), df.agg()
+exam.agg(mean_math = ('math','mean'))
+exam.groupby('nclass').agg(mean_math = ('math','mean'))
+exam.groupby('nclass', as_index=False).agg(mean_math = ('math','mean'))
+exam.groupby('nclass').agg(mean_math = ('math','mean'),
+                            sum_math = ('math','sum'),
+                            median_math = ('math','median'),
+                            n = ('nclass','count'))
+
+mpg.groupby(['manufacturer', 'drv']).agg(mean_cty = ('cty', 'mean'))
+mpg['drv'].value_counts()
+
+Q.제조 회사별로 'suv'자동차의 도시 및 고속도로 합산연비평균을 구해 내림차순으로 정렬하고, 1~5위까지 출력하기
+mpg.query('category=="suv"').assign(total = mpg['cty'] + mpg['hwy']).groupby('manufacturer').agg(mean = ('total', 'mean')).sort_values('mean', ascending=False).head()
+mpg.query("category=='suv'")\
+    .assign(total = mpg['cty']+ mpg['hwy'])\
+    .groupby('manufacturer')\
+    .agg(mean=('total', 'mean'))\
+    .sort_values('mean', ascending=False)\
+    .head()
