@@ -111,12 +111,62 @@ mpg.query("category=='suv'")\
 
 Q1. mpg 데이터의 category는 자동차를 특징에 따라 'suv', 'compact' 등 일곱 종류로 분류한 변수입니다.
 어떤 차종의 도시 연비가 높은지 비교해 보려고 합니다. category별 cty 평균을 구해 보세요.
-
+mpg.groupby('category').assign(mean=('cty','mean')
 Q2. 앞 문제의 출력 결과는 category 값 알파벳순으로 정렬되어 있습니다.
 어떤 차종의 도시 연비가 높은지 쉽게 알아볼 수 있도록 cty 평균이 높은 순으로 정렬해 출력하세요.
-
+mpg.groupby('category').agg(mean=('cty','mean')).sort_values('mean', ascending=False)
 Q3. 어떤 회사 자동차의 hwy(고속도로 연비)가 가장 높은지 알아보려고 합니다.
 hwy 평균이 가장 높은 회사 세 곳을 출력하세요.
-
+mpg.groupby('manufacturer') \
+.agg(mean_hwy = ('hwy', 'mean')) \
+.sort_values('mean_hwy', ascending=False) \
+.head(3)
 Q4. 어떤 회사에서 'compact' 차종을 가장 많이 생산하는지 알아보려고 합니다.
 회사별 'compact' 차종 수를 내림차순으로 정렬해 출력하세요.
+mpg.query('category == "compact"') \
+.groupby('manufacturer') \
+.agg(n = ('manufacturer', 'count')) \
+.sort_values('n', ascending = False)
+
+mpg.query('category == "compact"') \
+.value_counts('manufacturer')
+
+
+
+7. 데이터 합치기
+가로로 합치기: df.merge()
+세로로 합치기: df.concat()
+
+#중간고사 데이터
+test1 = pd.DataFrame({ "id" : [1,2,3,4,5],
+                     "midterm" : [60,80,70,90,85]})
+#기말고사 데이터
+test2 = pd.DataFrame({ "id" : [1,2,3,4,5],
+                     "final" : [70,83,65,95,80]})
+total = pd.merge(test1, test2, how='left', on='id')
+total
+name = pd.DataFrame({"nclass" : [1,2,3,4,5],
+                    "teacher": ["kim", "lee", "park", "choi", "jung"]})
+name
+exam_new = pd.merge(exam, name, how='left', on='nclass')
+exam_new
+
+#학생 1~5번 시험 데이터
+group_a = pd.DataFrame({"id": [1,2,3,4,5],
+                       "test" : [60,80,70,90,85]})
+#학생 6~10
+group_b = pd.DataFrame({"id": [6,7,8,9,10],
+                       "test" : [60,80,70,90,85]})
+group_all = pd.concat([group_a, group_b], ignore_index=True)
+group_all
+
+fuel = pd.DataFrame({ "f1" : ["c", "d", "e", "p", "r"],
+                    "price_fl" : [2.35, 2.38, 2.11, 2.76, 2.22]})
+fuel
+Q1. mpg 데이터에는 연료 종류를 나타낸 fl 변수는 있지만 연료 가격을 나타낸 변수는 없습니다.
+앞에서 만든 fuel 데이터를 이용해 mpg 데이터에 price_fl(연료 가격) 변수를 추가하세요.
+mpg = pd.merge(mpg, fuel, how='left', on='fl')
+mpg
+Q2. 연료 가격 변수가 잘 추가됐는지 확인하기 위해 model, fl, price_fl 변수를 추출해 앞부분
+5행을 출력해 보세요.
+mpg[['model', 'fl', 'price_fl']].head()
