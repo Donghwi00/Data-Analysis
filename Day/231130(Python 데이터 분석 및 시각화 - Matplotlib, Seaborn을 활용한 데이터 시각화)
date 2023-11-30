@@ -1,1 +1,50 @@
 Python 실습예제
+자유자재로 데이터 가공하기
+3. 필요한 변수만 추출하기
+df[]
+exam['math']
+exam[['math']]
+exam[['nclass', 'math', 'english']]
+
+변수 제거하기
+exam.drop(columns = 'math')
+
+exam.query('nclass==1')['english']
+exam.query('math >=50')[['id', 'math']]
+exam.query('math >=50')[['id', 'math']].head(10)
+
+가독성 있게 코드 줄 바꾸기
+exam.query('math>=50')\
+    [['id', 'math']]\
+    .head(10)
+
+Q1. mpg 데이터는 11개 변수로 구성됩니다. 이 중 일부만 추출해 분석에 활용하려고 합니다.
+mpg 데이터에서 category(자동차 종류), cty(도시 연비) 변수를 추출해 새로운 데이터를
+만드세요. 새로 만든 데이터의 일부를 출력해 두 변수로만 구성되어 있는지 확인하세요.
+mpg = pd.read_csv('mpg.csv')
+mpg_new = mpg[['category', 'cty']]
+mpg_new.head()
+Q2. 자동차 종류에 따라 도시 연비가 어떻게 다른지 알아보려고 합니다.
+앞에서 추출한 데이터를 이용해 category(자동차 종류)가 'suv'인 자동차와 'compact'인 자동차 중
+어떤 자동차의 cty(도시 연비) 평균이 더 높은지 알아보세요.
+mpg_new.query('category=="suv"')['cty'].mean()
+mpg_new.query('category=="compact"')['cty'].mean()
+
+
+
+4. 순서대로 정렬하기
+df.sort_values()
+exam.sort_values('math') # math 오름차순 정렬
+exam.sort_values('math', ascending=False)
+
+exam.sort_values(['nclass', 'math'])
+exam.sort_values(['nclass', 'math'], ascending=[True,False])
+
+Q1. 'audi'에서 생산한 자동차 중에 어떤 자동차 모델의 hwy(고속도로 연비)가 높은지 알아보려고
+합니다. 'audi' 에서 생산한 자동차 중 hwy가 1~5위에 해당하는 자동차의 데이터를 출력하세요.
+mpg = pd.read_csv('mpg.csv')
+mpg_audi = mpg.query('manufacturer=="audi"').sort_values('hwy', ascending=False).head()
+
+
+
+5. 파생변수 추가하기
