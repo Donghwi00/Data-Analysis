@@ -224,3 +224,56 @@ mpg.dropna(subset=['hwy']).groupby('drv').agg(mean=('hwy', 'mean'))
 
 
 2. 이상한 데이터를 찾아라!- 이상치 정제하기
+이상치(anomaly): 정상범위에서 크게 벗어난 값
+-실제 데이터에 대부분 이상치 들어있음
+-제거하지 않으면 분석결과 왜곡되므로 분석 전에 제거작업 필요
+
+df = pd.DataFrame({ "sex" : [1,2,1,3,2,1],
+                  "score": [5,4,3,4,2,6]})
+df
+df['sex'].value_counts(sort=False).sort_index()
+df['score'].value_counts(sort=False).sort_index()
+df['sex'] = np.where(df['sex']==3, np.nan, df['sex'])
+df.dropna(subset=['sex', 'score']).groupby('sex').agg(mean=('score','mean'))
+
+df = pd.DataFrame({
+    'x1': [1,1,2,2]
+})
+df['x2'] = np.where(df['x1']==1, 'a', np.nan)
+df.isna()
+df['x2'] = np.where(df['x1']==1, 'a', 'etc')
+df['x2'] = df['x2'].replace('etc', np.nan)
+df.isna()
+
+
+
+이상치 제거하기-극단적인 값
+극단치(outlier): 논리적으로 존재할 수 있지만 극단적으로 크거나 작은 값
+-극단치 있으면 분석결과 왜곡될 수 있으므로 제거 후 분석
+-기준 정하기
+1. 상자 그림 살펴보기
+mpg = pd.read_csv('mpg.csv')
+import seaborn as sns
+sns.boxplot(data=mpg, y='hwy')
+
+mpg = pd.read_csv('mpg.csv')
+mpg.loc[[9,13,57,92], 'drv'] = 'k'
+mpg.loc[[28,42,128,202], 'cty'] = [3,4,39,42]
+Q1. drv에 이상치가 있는지 확인하세요. 이상치를 결측 처리한 다음 이상치가 사라졌는지 확인하세요.
+    결측처리를 할 때는 df.isin()을 활용하세요.
+mpg['drv'].value_counts()
+mpg['drv'] = np.where(mpg['drv'].isin(mpg_org['drv']), mpg['drv'], np.nan)
+mpg['drv'].value_counts()
+Q2. 상자그림을 이용해 cty에 이상치가 있는지 확인하세요. 상자 그림 기준으로 정상 범위를 벗어난
+값을 결측 처리한 다음 다시 상자 그림을 만들어 이상치가 사라졌는지 확인하세요.
+sns.boxplot(data=mpg, y='cty')
+pct25 = mpg['cty'].quantile(.25)
+pct75 = mpg['cty'].quantile(.75)
+iqr = pct75 - pct25
+pct25 - 1.5*iqr
+pct75 + 1.5*iqr
+mpg['cty'] = np.where((mpg['cty']<6.5) | (mpg['cty']>26.5), np.nan, mpg['cty'])
+sns.boxplot(data=mpg, y = 'cty')
+Q3. 두 변수의 이상치를 결측 처리했으니 이제 분석할 차례입니다. 이상치를 제거한 다음 drv별로
+cty 평균이 어떻게 다른지 알아보세요. 하나의 pandas 구문으로 만들어야 합니다.
+mpg.dropna(subset = ['drv', 'cty']).groupby('drv').agg(mean=('cty','mean'))
