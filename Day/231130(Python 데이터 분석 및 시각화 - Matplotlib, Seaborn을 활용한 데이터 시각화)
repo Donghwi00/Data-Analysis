@@ -170,3 +170,57 @@ mpg
 Q2. 연료 가격 변수가 잘 추가됐는지 확인하기 위해 model, fl, price_fl 변수를 추출해 앞부분
 5행을 출력해 보세요.
 mpg[['model', 'fl', 'price_fl']].head()
+
+
+
+데이터 정제- 빠진 데이터, 이상한 데이터 제거하기
+1. 빠진 데이터를 찾아라!-결측치 정제하기
+결측치(missing value): 누락된 값, 비어있는 값
+-데이터수집 과정에서 발생한 오류로 포함될 가능성
+-함수가 적용되지 않거나 분석결과가 왜곡되는 문제발생
+-실제 데이터분석시 결측치 확인,제거 후 분석해야 함
+import pandas as pd
+import numpy as np
+df = pd.DataFrame({
+    'sex':['M', 'F', np.nan, 'M', 'F'],
+    'score': [5, 4, 3, 4, np.nan]
+})
+df
+df['score'] + 1
+pd.isna(df)
+pd.isna(df).sum()
+df_nomiss = df.dropna(subset=['score'])
+df_nomiss['score'] + 1
+df_nomiss = df.dropna(subset=['score', 'sex'])
+df_nomiss
+df_nomiss2 = df.dropna()
+df_nomiss2
+
+결측치 대체하기
+-결측치가 적고 데이터가 크면 결측치 제거 후 분석가능
+-데이터가 작고 결측치 많으면 데이터 손실로 인해 분석결과 왜곡 발생
+-결측치 대체법을 이용하면 보완 가능
+
+결측치 대체법(imputation): 결측치를 제거하는 대신 다른 값을 채워넣는 방법
+-대표값(평균값, 최빈값 등)을 구해 일괄 대체
+-통계분석기법으로 결측치의 예측값 추정 후 대체
+exam = pd.read_csv('exam.csv')
+exam.loc[[2,7,14], ['math']] = np.nan
+exam
+exam['math'].mean()
+exam['math'] = exam['math'].fillna(55)
+exam
+
+mpg =pd.read_csv("mpg.csv")
+mpg.loc[[64,123,130,152,211], "hwy"] = np.nan
+Q1.  drv(구동 방식)별로 hwy(고속도로 연비) 평균이 어떻게 다른지 알아보려고 합니다.
+분석을 하기 전에 우선 두 변수에 결측치가 있는지 확인해야 합니다. 
+drv 변수와 hwy 변수에 결측치가 몇 개 있는지 알아보세요.
+mpg[['drv', 'hwy']].isna().sum()
+Q2. df.dropna()를 이용해 hwy 변수의 결측치를 제거하고, 어떤 구동 방식의 hwy 평균이 높은지 알아보세요.
+하나의 pandas 구문으로 만들어야 합니다.
+mpg.dropna(subset=['hwy']).groupby('drv').agg(mean=('hwy', 'mean'))
+
+
+
+2. 이상한 데이터를 찾아라!- 이상치 정제하기
