@@ -6,3 +6,45 @@
 기업 및 직무분석 & 이해 필수!
 => 채용공고 지원자격, 요구역량과 주요업무 이해
 
+자유자재로 데이터 가공하기
+1. 데이터 전처리- 원하는 형태로 데이터 가공하기
+query(): 행 추출/ df[]: 열(변수) 추출/ sort_values(): 정렬/ groupby(): 집단별로 나누기
+/ assign(): 변수 추가/ agg():통계치 구하기/ merge(): 데이터합치기(열)/ concat(): 데이터합치기(행)
+
+
+
+2. 조건에 맞는 데이터만 추출하기
+df.query()
+import pandas as pd
+exam = pd.read_csv('exam.csv')
+exam
+
+exam.query('nclass ==1')
+exam.query('nclass !=1')
+exam.query('math > 50')
+exam.query('nclass == 1 & math >=50')
+exam.query('math >=90 | english >=90')
+exam.query('nclass==1 | nclass==3 | nclass==5')
+exam.query('nclass in [1,3,5]')
+nclass1 = exam.query('nclass == 1')
+nclass2 = exam.query('nclass == 2')
+nclass1['math'].mean()
+nclass2['math'].mean()
+var = 3
+exam.query('nclass==@var')
+
+df = pd.DataFrame({
+    'sex': ['F','M','F','M'],
+    'country': ['Korea', 'China', 'Japan', 'USA']
+})
+df
+df.query('sex=="F" & country=="Korea"')
+
+mpg = pd.read_csv('mpg.csv')
+mpg_a = mpg.query('displ <=4')
+mpg_b = mpg.query('displ >=5')
+mpg_a['hwy'].mean()
+mpg_b['hwy'].mean()
+
+mpg_new = mpg.query('manufacturer in ["chevrolet", "ford", "honda"]')
+mpg_new['hwy'].mean()
