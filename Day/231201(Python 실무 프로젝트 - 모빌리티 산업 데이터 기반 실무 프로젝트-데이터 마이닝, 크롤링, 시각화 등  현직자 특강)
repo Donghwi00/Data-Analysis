@@ -1,0 +1,14 @@
+파이썬 실습예제
+
+시각화하기
+seaborn패키지
+산점도(scatter plot)
+-연속값으로 된 두 변수 간 관계를 표현할 때
+-데이터를 x축과 y축에 점으로 표현한 그래프
+
+import pandas as pd
+import seaborn as sns
+mpg = pd.read_csv('mpg.csv')
+sns.scatterplot(data=mpg, x = 'displ', y='hwy')
+sns.scatterplot(data=mpg, x = 'displ', y='hwy').set(xlim=[3,6], ylim=[10,30])
+
