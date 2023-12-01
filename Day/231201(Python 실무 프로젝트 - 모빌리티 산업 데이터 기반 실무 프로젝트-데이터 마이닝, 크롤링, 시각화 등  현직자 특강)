@@ -1,8 +1,8 @@
 파이썬 실습예제
 
-시각화하기
+그래프 만들기
 seaborn패키지
-산점도(scatter plot)
+2. 산점도(scatter plot)
 -연속값으로 된 두 변수 간 관계를 표현할 때
 -데이터를 x축과 y축에 점으로 표현한 그래프
 
@@ -11,4 +11,100 @@ import seaborn as sns
 mpg = pd.read_csv('mpg.csv')
 sns.scatterplot(data=mpg, x = 'displ', y='hwy')
 sns.scatterplot(data=mpg, x = 'displ', y='hwy').set(xlim=[3,6], ylim=[10,30])
+sns.scatterplot(data=mpg, x='displ', y='hwy', hue='drv')
+sns.scatterplot(data=mpg, x='displ', y='hwy'); # 설명 메세지 숨기기
 
+import matplotlib.pyplot as plt
+plt.rcParams.update({'figure.dpi' : '150',
+                      'figure.figsize' : [8,6],
+                      'font.size' : '15',
+                      'font.family' : 'Malgun Gothic'})
+plt.rcParams.update(plt.rcParamsDefault)
+
+Q1. mpg데이터의 cty(도시 연비)와 hwy(고속도로 연비) 간에 어떤 관계가 있는지 알아보려고 합니다.
+x축은 cty , y축은 hwy로 된 산점도를 만들어 보세요.
+import pandas as pd
+import seaborn as sns
+mpg = pd.read_csv('mpg.csv')
+sns.scatterplot(data=mpg, x='cty', y='hwy')
+Q2. 미국의 지역별 인구통계 정보를 담은 midwest.csv를 이용해 전체 인구와 아시아인 인구 간에 어떤 관계가 있는지 알아보려고 합니다.
+x축은 poptotal(전체 인구), y축은 popasian(아시아인 인구)으로 된 산점도를 만들어 보세요.
+• 전체 인구는 50만 명 이하, 아시아인 인구는 1만 명 이하인 지역만 산점도에 표시되게 설정하세요.
+midwest = pd.read_csv('midwest.csv')
+sns.scatterplot(data=midwest, x='poptotal', y='popasian').set(xlim=(0,500000), ylim=(0,10000))
+
+
+
+3. 막대그래프
+-집단 간 차이 표현하기
+-데이터의 크기를 막대의 길이로 표현한 그래프
+-성별 소득 차이처럼 집단 간 차이를 표현할 때 사용
+df_mpg = mpg.groupby('drv', as_index=False).agg(mean_hwy = ('hwy', 'mean'))
+df_mpg
+sns.barplot(data=df_mpg, x='drv', y='mean_hwy')
+df_mpg = df_mpg.sort_values('mean_hwy', ascending=False)
+sns.barplot(data=df_mpg, x='drv', y='mean_hwy')
+
+df_mpg = mpg.groupby('drv', as_index=False).agg(n = ('drv', 'count'))
+sns.barplot(data=df_mpg, x='drv', y='n')
+sns.countplot(data=mpg, x='drv')
+sns.countplot(data=mpg, x='drv', order=['4', 'f', 'r'])
+
+Q1. 어떤 회사에서 생산한 'suv' 차종의 도시 연비가 높은지 알아보려고 합니다.
+'suv' 차종을 대상으로 cty(도시 연비) 평균이 가장 높은 회사 다섯 곳을 막대 그래프로 표현해 보세요. 
+막대는 연비가 높은 순으로 정렬하세요.
+import pandas as pd
+import seaborn as sns
+mpg = pd.read_csv('mpg.csv')
+df = mpg.query('category=="suv"').groupby('manufacturer', as_index=False).agg(mean=('cty','mean')).sort_values('mean', ascending=False).head()
+sns.barplot(data=df, x='manufacturer', y='mean')
+Q2. 자동차 중에 어떤 category(자동차 종류)가 많은지 알아보려고 합니다.
+sns.barplot()을 이용해 자동차 종류별 빈도를 표현한 막대 그래프를 만들어 보세요. 막대는 빈도가 높은 순으로 정렬하세요.
+df_mpg = mpg.groupby('category', as_index=False).agg(n=('category', 'count')).sort_values('n', ascending=False)
+df_mpg
+sns.countplot(data=mpg, x='category', order=mpg['category'].value_counts().index)
+
+
+
+4. 선 그래프
+-시간에 따라 달라지는 데이터 표현하기
+-시계열 데이터: 일정 시간 간격을 두고 나열된 데이터
+-시계열 그래프: 시계열 데이터를 선으로 표현한 그래프
+economics = pd.read_csv('economics.csv')
+economics.head()
+sns.lineplot(data=economics, x='date', y='unemploy')
+economics['date2'] = pd.to_datetime(economics['date'])
+economics.info()
+economics[['date', 'date2']]
+economics['date2'].dt.year
+economics['year'] = economics['date2'].dt.year
+economics.head()
+sns.lineplot(data=economics, x='year', y='unemploy')
+sns.lineplot(data=economics, x='year', y='unemploy', ci=None) # 신뢰구간 제거
+
+Q1. psavert(개인 저축률)가 시간에 따라 어떻게 변해 왔는지 알아보려고 합니다. 
+연도별 개인 저축률의 변화를 나타낸 시계열 그래프를 만들어 보세요.
+import pandas as pd
+import seaborn as sns
+economics = pd.read_csv('economics.csv')
+economics['date2'] = pd.to_datetime(economics['date'])
+economics['year'] = economics['date2'].dt.year
+sns.lineplot(data=economics, x='year', y='psavert')
+Q2. 2014년 월별 psavert의 변화를 나타낸 시계열 그래프를 만들어 보세요.
+df_2014 = economics.query('year==2014')
+economics['month'] = economics['date2'].dt.month
+sns.lineplot(data=df_2014, x='month', y='psavert', ci=None)
+
+
+
+5. 상자 그림: 데이터의 분포 또는 퍼져 있는 형태를 직사각형 상자 모양으로 표현한 그래프
+-집단 간 분포 차이 표현하기
+-데이터가 어떻게 분포하고 있는지 알 수 있다.
+-평균값만 볼 때보다 데이터의 특징을 더 자세히 이해할 수 있다.
+sns.boxplot(data=mpg, x='drv', y='hwy')
+Q1. category(자동차 종류)가 'compact', 'subcompact', 'suv'인 자동차의 cty(도시 연비)가 어떻게 다른지 비교해 보려고 합니다.
+세 차종의 cty를 나타낸 상자 그림을 만들어 보세요.
+import pandas as pd
+import seaborn as sns
+mpg = mpg.query('category in ["compact", "subcompact", "suv"]')
+sns.boxplot(data=mpg, x='category', y='cty')
