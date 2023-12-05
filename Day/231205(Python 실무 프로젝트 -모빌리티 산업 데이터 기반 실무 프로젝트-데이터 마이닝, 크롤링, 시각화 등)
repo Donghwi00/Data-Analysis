@@ -1,1 +1,15 @@
 한발 더 나아가는 데이터과학의 세계
+통계분석
+기술통계분석: 데이터를 요약해 설명하는 통계분석기법
+추론통계분석: 단순히 숫자를 요약하는 것을 넘어 어떤 값이 발생할 확률을 계산
+
+통계적 가설 검정
+-유의확률(P-VALUE): 실제로는 집단 간 차이가 없는데, 우연히 차이가 있는 데이터가 추출될 확률.
+-T검정(T-TEST): 두 집단의 평균에 통계적으로 유의한 차이가 있는지 알아볼 때 사용하는 통계분석 기법.
+
+import pandas as pd
+mpg = pd.read_csv('mpg.csv')
+mpg.query("category in ['compact', 'suv']") \
+    .groupby("category", as_index=False) \
+    .agg( n = ("category", "count"),
+        mean = ("cty", "mean"))
